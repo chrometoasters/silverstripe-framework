@@ -2063,8 +2063,8 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
                 $extraFields = $schema->manyManyExtraFieldsForComponent($remoteClass, $remoteRelation) ?: array();
 
                 // Support polymorphic
-                if (isset($manyMany['parentClass']) && $manyMany['parentClass'] == DataObject::class) {
-                   return null;
+                if (isset($manyMany['parentClass']) && $manyMany['parentClass'] == static::class) {
+                    return null;
                 }
 
                 // Reverse parent and component fields and create an inverse ManyManyList
