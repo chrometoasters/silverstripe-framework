@@ -892,6 +892,15 @@ class DataQuery
                 continue;
             }
 
+            // *************** //
+            //  START CUSTOM   //
+            // *************** //
+
+            // we allow to have the relation provided with the model class prefixed as it worked in SS3
+            if (strpos($rel, $modelClass) === 0) {
+                $rel = substr($rel, strlen($modelClass) + 1);
+            }
+
             // Check many_many
             if ($component = $schema->manyManyComponent($modelClass, $rel)) {
                 // Fail on non-linear relations
@@ -911,6 +920,10 @@ class DataQuery
                 $modelClass = $component['childClass'];
                 continue;
             }
+
+            // *************** //
+            //   END  CUSTOM   //
+            // *************** //
 
             // no relation
             throw new InvalidArgumentException("$rel is not a relation on model $modelClass");
