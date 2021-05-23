@@ -265,6 +265,13 @@ class DBTextTest extends SapphireTest
                 'both <mark>schön</mark> and können…',
             ],
             [
+                '\xf0\x28\x8c\xbc',
+                20,
+                '',
+                // check invalid UTF8 handling
+                '',
+            ],
+            [
                 'both schön and können have umlauts',
                 21,
                 '',
