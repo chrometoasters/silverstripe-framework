@@ -278,8 +278,43 @@ class DBTextTest extends SapphireTest
                 // check non existant search term
                 'both schön and können…',
             ]
+        ];
+    }
 
-
+    /**
+     * each test is in the format input, word limit, add ellipsis (false or string), expected output
+     *
+     * @return array
+     */
+    public function providerSummary()
+    {
+        return [
+            [
+                'This is some text. It is a test',
+                3,
+                false,
+                'This is some…',
+            ],
+            [
+                // Retains case of original string
+                'This is some test text. Test test what if you have multiple keywords.',
+                6,
+                'xxx',
+                'This is some test text. Testxxx',
+            ],
+            [
+                'both schön and können have umlauts',
+                5,
+                false,
+                'both schön and können have…',
+            ],
+            [
+                '\xf0\x28\x8c\xbc',
+                50,
+                false,
+                // check invalid UTF8 handling — input is an invalid UTF sequence, output should be empty string
+                '',
+            ],
         ];
     }
 
@@ -358,5 +393,19 @@ class DBTextTest extends SapphireTest
     {
         $textObj = new DBText('Test');
         $this->assertEquals('…', $textObj->defaultEllipsis());
+    }
+
+    /**
+     * @dataProvider providerSummary
+     * @param string $originalValue Input
+     * @param int    $words         Number of words
+     * @param mixed  $add           Ellipsis (false for default or string for custom text)
+     * @param string $expectedValue Expected output (XML encoded safely)
+     */
+    public function testSummary($originalValue, $words, $add, $expectedValue)
+    {
+        $text = DBField::create_field('Text', $originalValue);
+        $result = $text->obj('Summary', [$words, $add]);
+        $this->assertEquals($expectedValue, $result);
     }
 }
