@@ -114,7 +114,7 @@ class DBTextTest extends SapphireTest
             ['The little brown fox jumped over the lazy cow.', 3, 'The little brown…'],
             [' This text has white space around the ends ', 3, 'This text has…'],
 
-            // Words less than the limt word count don't get truncated, ellipsis not added
+            // Words less than the limit word count don't get truncated, ellipsis not added
             ['Two words', 3, 'Two words'],  // Two words shouldn't have an ellipsis
             ['These three words', 3, 'These three words'], // Three words shouldn't have an ellipsis
             ['One', 3, 'One'],  // Neither should one word
@@ -216,7 +216,7 @@ class DBTextTest extends SapphireTest
     }
 
     /**
-     * each test is in the format input, charactere limit, highlight, expected output
+     * each test is in the format input, character limit, highlight, expected output
      *
      * @return array
      */
@@ -268,14 +268,14 @@ class DBTextTest extends SapphireTest
                 '\xf0\x28\x8c\xbc',
                 20,
                 '',
-                // check invalid UTF8 handling
+                // check invalid UTF8 handling — input is an invalid UTF sequence, output should be empty string
                 '',
             ],
             [
                 'both schön and können have umlauts',
                 21,
                 '',
-                // check non existant search term
+                // check non-existent search term
                 'both schön and können…',
             ]
         ];
@@ -321,7 +321,7 @@ class DBTextTest extends SapphireTest
     /**
      * @dataProvider providerContextSummary
      * @param string $originalValue Input
-     * @param int    $limit         Numer of characters
+     * @param int    $limit         Number of characters
      * @param string $keywords      Keywords to highlight
      * @param string $expectedValue Expected output (XML encoded safely)
      */
